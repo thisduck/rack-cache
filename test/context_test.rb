@@ -47,6 +47,7 @@ describe 'Rack::Cache::Context' do
     response.should.be.ok
     cache.trace.should.include :miss
     cache.trace.should.include :store
+    cache.trace.should.not.include :ignore
     response.headers.should.include 'Age'
     response.headers['Cache-Control'].should.equal 'public'
   end
@@ -82,6 +83,7 @@ describe 'Rack::Cache::Context' do
     app.should.be.called
     response.should.be.ok
     cache.trace.should.include :store
+    cache.trace.should.include :ignore
     response.headers['Set-Cookie'].should.be.nil
   end
 
@@ -92,6 +94,7 @@ describe 'Rack::Cache::Context' do
     app.should.be.called
     response.should.be.ok
     cache.trace.should.not.include :store
+    cache.trace.should.not.include :ignore
     response.headers['Set-Cookie'].should.equal 'TestCookie=OK'
   end
 
